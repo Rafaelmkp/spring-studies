@@ -1,33 +1,28 @@
 package com.Rafaelmkp.learningspring.utils;
 
-import com.Rafaelmkp.learningspring.data.*;
+import com.Rafaelmkp.learningspring.business.ReservationService;
+import com.Rafaelmkp.learningspring.business.RoomReservation;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+import java.util.List;
+
 @Component
 public class AppStartupEvent implements ApplicationListener<ApplicationReadyEvent> {
-    private final RoomRepository roomRepository;
-    private final GuestRepository guestRepository;
-    private final ReservationRepository reservationRepository;
+    private ReservationService reservationService;
+    private DateUtils dateUtils;
 
-    public AppStartupEvent(
-            RoomRepository roomRepository,
-            GuestRepository guestRepository,
-            ReservationRepository reservationRepository
-    ) {
-        this.roomRepository = roomRepository;
-        this.guestRepository = guestRepository;
-        this.reservationRepository = reservationRepository;
+    public AppStartupEvent(ReservationService reservationService, DateUtils dateUtils) {
+        this.reservationService = reservationService;
+        this.dateUtils = dateUtils;
     }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        Iterable<Room> rooms = roomRepository.findAll();
-        rooms.forEach(System.out::println);
-        Iterable<Guest> guests = guestRepository.findAll();
-        guests.forEach(System.out::println);
-        Iterable<Reservation> reservations = reservationRepository.findAll();
+        Date date = dateUtils.createDateFromDateString("2022-01-01");
+        List<RoomReservation> reservations = reservationService.getRoomReservationsForDate(date);
         reservations.forEach(System.out::println);
     }
 }
