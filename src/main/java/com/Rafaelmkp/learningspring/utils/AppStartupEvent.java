@@ -1,4 +1,4 @@
-package com.Rafaelmkp.learningspring;
+package com.Rafaelmkp.learningspring.utils;
 
 import com.Rafaelmkp.learningspring.data.*;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
