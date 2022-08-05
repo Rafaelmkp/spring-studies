@@ -27,6 +27,13 @@ public class GuestService {
             guests.add(dto);
         });
 
+        guests.sort((GuestDTO o1, GuestDTO o2) -> {
+            if(o1.getLastName().equals(o2.getLastName())) {
+                return o1.getFirstName().compareTo(o2.getFirstName());
+            }
+            return o1.getLastName().compareTo(o2.getLastName());
+        });
+
         return guests;
     }
 }
